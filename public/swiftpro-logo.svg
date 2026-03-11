@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <rect width="200" height="60" fill="#0A2463" rx="8"/>
+  <text x="20" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white">
+    Swift<tspan fill="#E63946">Pro</tspan>
+  </text>
+</svg>

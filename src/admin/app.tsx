@@ -1,0 +1,75 @@
+import type { StrapiApp } from '@strapi/strapi/admin';
+
+export default {
+  config: {
+    locales: ['en'],
+    translations: {
+      en: {
+        'app.components.LeftMenu.navbrand.title': 'SwiftPro CMS',
+        'app.components.LeftMenu.navbrand.organization': 'Swift Professional Solutions',
+      },
+    },
+    theme: {
+      colors: {
+        primary: '#0A2463',
+        secondary: '#E63946',
+        accent: '#3A86FF',
+        'primary-50': '#E8EBF7',
+        'primary-100': '#C5CEE8',
+        'primary-200': '#9FB0D8',
+        'primary-300': '#7991C8',
+        'primary-400': '#5D7BBB',
+        'primary-500': '#0A2463',
+        'primary-600': '#081E4E',
+        'primary-700': '#06173B',
+        'primary-800': '#041129',
+        'primary-900': '#020816',
+        'secondary-50': '#FCE8EA',
+        'secondary-100': '#F8C4C9',
+        'secondary-200': '#F39DA6',
+        'secondary-300': '#EE7583',
+        'secondary-400': '#EA5468',
+        'secondary-500': '#E63946',
+        'secondary-600': '#B82E38',
+        'secondary-700': '#8B232A',
+        'secondary-800': '#5E171C',
+        'secondary-900': '#310C0E',
+        'accent-50': '#E6F0FF',
+        'accent-100': '#BFD4FF',
+        'accent-200': '#94B7FF',
+        'accent-300': '#699AFF',
+        'accent-400': '#4784FF',
+        'accent-500': '#3A86FF',
+        'accent-600': '#2E6BCC',
+        'accent-700': '#235299',
+        'accent-800': '#173966',
+        'accent-900': '#0C2233',
+        neutral: {
+          0: '#FFFFFF',
+          50: '#F8F9FA',
+          100: '#E9ECEF',
+          200: '#DEE2E6',
+          300: '#CED4DA',
+          400: '#ADB5BD',
+          500: '#6C757D',
+          600: '#495057',
+          700: '#343A40',
+          800: '#1C1C1E',
+          900: '#000000',
+        },
+      },
+    },
+    head: {
+      title: 'SwiftPro CMS',
+      favicon: '/swiftpro-logo.svg',
+      meta: {
+        viewport: 'width=device-width, initial-scale=1',
+        charset: 'utf-8',
+        description: 'Swift Professional Solutions Limited - Content Management System',
+      },
+    },
+  },
+  bootstrap(app: StrapiApp) {
+    console.log('SwiftPro CMS initialized');
+  },
+};

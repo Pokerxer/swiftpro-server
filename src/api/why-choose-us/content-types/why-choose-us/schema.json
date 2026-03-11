@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "why_choose-uss",
+  "info": {
+    "singularName": "why-choose-us",
+    "pluralName": "why-choose-uss",
+    "displayName": "Why Choose Us"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "icon": {
+      "type": "string"
+    }
+  }
+}
