@@ -1,7 +1,13 @@
-# Strapi Content Types for Swift Professional Solutions
+# Swift Professional Solutions CMS Content Types
 
 ## Access Your Strapi Admin:
 **URL:** http://localhost:1337/admin
+
+## Server Information:
+- **Project:** swiftpro-server (Strapi CMS)
+- **Client:** swiftpro (Next.js Frontend)
+- **Database:** SQLite (.tmp/data.db)
+- **API Base:** http://localhost:1337
 
 ## Content Types to Create:
 

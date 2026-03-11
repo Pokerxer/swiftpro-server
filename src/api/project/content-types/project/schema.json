@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "projects",
+  "info": {
+    "singularName": "project",
+    "pluralName": "projects",
+    "displayName": "Project"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Web",
+        "Infrastructure",
+        "Software",
+        "Security"
+      ],
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "fullDescription": {
+      "type": "richtext"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "tags": {
+      "type": "json"
+    },
+    "client": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    }
+  }
+}

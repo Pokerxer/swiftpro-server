@@ -1,20 +1,53 @@
-// import type { Core } from '@strapi/strapi';
+import type { Core } from '@strapi/strapi';
 
 export default {
-  /**
-   * An asynchronous register function that runs before
-   * your application is initialized.
-   *
-   * This gives you an opportunity to extend code.
-   */
-  register(/* { strapi }: { strapi: Core.Strapi } */) {},
+  register() {},
 
-  /**
-   * An asynchronous bootstrap function that runs before
-   * your application gets started.
-   *
-   * This gives you an opportunity to set up your data model,
-   * run jobs, or perform some special logic.
-   */
-  bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
+  async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    // Set public permissions
+    try {
+      const roleService = strapi.plugin('users-permissions').service('role');
+      const roles = await roleService.find();
+      const publicRole = roles.find(role => role.type === 'public');
+      
+      if (publicRole) {
+        const role = await roleService.findOne(publicRole.id);
+        
+        const publicApis = [
+          'api::service.service',
+          'api::project.project',
+          'api::blog-post.blog-post',
+          'api::team-member.team-member',
+          'api::testimonial.testimonial',
+          'api::stat.stat'
+        ];
+        
+        let permissionsChanged = false;
+        
+        if (!role.permissions) {
+            console.log("No permissions found in role object");
+        } else {
+            publicApis.forEach(api => {
+            if (role.permissions[api]) {
+                ['find', 'findOne'].forEach(action => {
+                if (role.permissions[api].controllers[api.split('.')[1]][action]) {
+                    if (!role.permissions[api].controllers[api.split('.')[1]][action].enabled) {
+                    role.permissions[api].controllers[api.split('.')[1]][action].enabled = true;
+                    permissionsChanged = true;
+                    }
+                }
+                });
+            }
+            });
+            
+            if (permissionsChanged) {
+               await roleService.updateRole(role.id, role);
+               console.log('✅ Public permissions enabled for all APIs');
+            }
+        }
+      }
+    } catch (e) {
+        console.error("Error setting permissions:", e);
+    }
+  },
 };
