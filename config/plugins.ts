@@ -18,6 +18,14 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
       },
     },
   },
+  'users-permissions': {
+    config: {
+      jwt: {
+        expiresIn: '7d',
+      },
+      jwtSecret: env('JWT_SECRET', 'your-super-secret-jwt-key-change-in-production'),
+    },
+  },
 });
 
 export default config;
