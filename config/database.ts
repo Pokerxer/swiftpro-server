@@ -1,59 +1,52 @@
 import path from 'path';
 
 const config = ({ env }: any) => {
-  // Check for PostgreSQL connection string first (Railway)
-  const databaseUrl = env('DATABASE_URL') || env('DATABASE_PUBLIC_URL');
-  
-  if (databaseUrl && databaseUrl.startsWith('postgres')) {
+  // Direct Railway PostgreSQL variables
+  const pgUser = process.env.PGUSER || process.env.POSTGRES_USER || 'postgres';
+  const pgPassword = process.env.POSTGRES_PASSWORD || '';
+  const pgDatabase = process.env.PGDATABASE || process.env.POSTGRES_DB || 'railway';
+  const pgHost = process.env.PGHOST || process.env.RAILWAY_PRIVATE_DOMAIN || 'localhost';
+  const pgPort = process.env.PGPORT || '5432';
+  const databaseUrl = process.env.DATABASE_URL || process.env.DATABASE_PUBLIC_URL;
+
+  // Log for debugging
+  console.log('Database config:', {
+    pgHost,
+    pgPort,
+    pgDatabase,
+    pgUser,
+    hasPassword: !!pgPassword,
+    hasUrl: !!databaseUrl,
+  });
+
+  // Use connection string if available
+  if (databaseUrl) {
     return {
       client: 'postgres',
       connection: {
         connectionString: databaseUrl,
-        ssl: false,
       },
       pool: { min: 2, max: 10 },
     };
   }
 
-  // Check DATABASE_CLIENT env var
-  const client = env('DATABASE_CLIENT', 'sqlite');
-
-  if (client === 'postgres') {
+  // Build connection from individual variables
+  if (pgHost && pgHost !== 'localhost') {
+    const connectionString = `postgresql://${pgUser}:${pgPassword}@${pgHost}:${pgPort}/${pgDatabase}`;
     return {
       client: 'postgres',
       connection: {
-        host: env('DATABASE_HOST', 'localhost'),
-        port: env.int('DATABASE_PORT', 5432),
-        database: env('DATABASE_NAME', env('PGDATABASE', 'strapi')),
-        user: env('DATABASE_USERNAME', env('PGUSER', 'strapi')),
-        password: env('DATABASE_PASSWORD', env('POSTGRES_PASSWORD', '')),
-        ssl: env.bool('DATABASE_SSL', false),
-        schema: env('DATABASE_SCHEMA', 'public'),
+        connectionString,
       },
       pool: { min: 2, max: 10 },
     };
   }
 
-  if (client === 'mysql') {
-    return {
-      client: 'mysql',
-      connection: {
-        host: env('DATABASE_HOST', 'localhost'),
-        port: env.int('DATABASE_PORT', 3306),
-        database: env('DATABASE_NAME', 'strapi'),
-        user: env('DATABASE_USERNAME', 'strapi'),
-        password: env('DATABASE_PASSWORD', ''),
-        ssl: env.bool('DATABASE_SSL', false),
-      },
-      pool: { min: 2, max: 10 },
-    };
-  }
-
-  // SQLite (default)
+  // SQLite fallback for local development
   return {
     client: 'sqlite',
     connection: {
-      filename: path.join(__dirname, '..', '..', env('DATABASE_FILENAME', '.tmp/data.db')),
+      filename: path.join(__dirname, '..', '..', '.tmp', 'data.db'),
     },
     useNullAsDefault: true,
   };
